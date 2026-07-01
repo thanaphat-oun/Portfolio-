@@ -1,92 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-
-const projects = [
-  {
-    id: 1,
-    type: 'Product',
-    title: 'Thai NLP & Sentiment Analysis Platform',
-    desc: 'Built a premier social media tracking platform tailored for the capital markets.',
-    metaText: 'Integrated an AI chatbot assistant to deliver real-time investor insights directly to users.',
-    forWho: 'Secured strategic collaborations with listed companies and brokerage firms.',
-    problem: 'Bridged the gap between real-time social sentiment and actionable capital market insights.',
-  },
-  {
-    id: 2,
-    type: 'Product',
-    title: 'High-Velocity Consumer Chatbot',
-    desc: 'Managed a high-engagement consumer-facing chatbot from initial concept to full market launch.',
-    metaText: 'Utilized astrological data cycles to drive user retention.',
-    forWho: 'Implemented rapid development workflows (using v.0, Lovable, Google AI Studio) to ship landing pages and automated CRM systems.',
-    problem: 'Accelerated MVP delivery and created scalable retention hooks in the consumer app space.',
-  },
-  {
-    id: 3,
-    type: 'Product',
-    title: 'LLM-Powered Investor Relations Assistant',
-    desc: 'Deployed an advanced financial inquiry chatbot to bridge the gap between complex market data and retail investors.',
-    metaText: 'Defined the core product vision and strategic direction to identify key digital transformation opportunities in fintech.',
-    forWho: 'Retail investors and enterprise financial institutions.',
-    problem: 'Made complex financial data instantly accessible and conversational.',
-  },
-  {
-    id: 4,
-    type: 'Product',
-    title: 'E-commerce Marketplace Platform',
-    desc: 'A robust, scalable marketplace platform engineered with AI development tools, delivering a fully-featured, dual-language experience. Features multi-vendor capabilities, AI-driven localization, seamless checkout, and dynamic regional pricing.',
-    metaText: 'Includes an admin dashboard for vendor and order management, and an automated, AI-assisted pipeline that moves orders to fulfillment with minimal manual touchpoints.',
-    forWho: 'Retail businesses and entrepreneurs looking to launch a multi-vendor marketplace.',
-    problem: 'Eliminates the complexity of building a multi-vendor platform from scratch by providing a robust, scalable foundation with advanced AI integrations.',
-    link: 'http://mu.astroneko.com/',
-  },
-  {
-    id: 5,
-    type: 'Product',
-    title: 'Financial & Trading Platform',
-    desc: 'An AI-accelerated live market data hub aggregating stock prices, gold, and cryptocurrency feeds. Engineered utilizing AI coding agents for rapid development, it provides low-latency updates, robust charting, and AI-assisted custom analytics for different user roles.',
-    metaText: 'Think of it as a Bloomberg-style data hub, built in-house with AI copilots, connecting multiple market sources into one place. Different teams each see the view relevant to them, backed by scalable data pipelines.',
-    forWho: 'Trading firms, financial analysts, institutional partners.',
-    problem: 'Fragmented data spread across exchanges and spreadsheets, with no single source of truth.',
-  },
-  {
-    id: 6,
-    type: 'Product',
-    title: 'AI Product Suite',
-    desc: 'A highly scalable family of standalone AI-powered tools built to tackle diverse business problems. These tools share a unified underlying infrastructure, leveraging intelligent LLM orchestration, flexible UI layers, and seamless model swapping to stay future-proof.',
-    features: [
-      { name: 'AI Chatbot', desc: 'Handles conversations with autonomous routing & analytics (TH/EN).' },
-      { name: 'AI Inspector', desc: 'Automated auditing of AI-generated content before deployment.' },
-      { name: 'AI Image Generator', desc: 'Custom frontend for generating targeted marketing assets.' },
-      { name: 'Agentic AI', desc: 'Automation layer for multi-step autonomous actions.' },
-      { name: 'Social AI Agent', desc: 'Autonomous X (Twitter) content generation and curation.' },
-    ],
-    forWho: 'Businesses wanting to automate repetitive tasks, content, or support.',
-    problem: 'Excessive manual work in areas where AI can operate faster and at scale.',
-  },
-  {
-    id: 7,
-    type: 'Product',
-    title: 'Enterprise HR & Ops Tools',
-    desc: 'A secure, serverless digital form infrastructure built efficiently with AI code generation, replacing outdated paper-based HR processes. Focuses on compliance, AI-automated approval routing, and maintaining strict audit trails.',
-    metaText: 'Features bilingual job applications and internal certificate requests, designed to deploy instantly. Reduces processing time from days to hours using intelligent automation.',
-    forWho: 'Enterprise HR teams with high-volume recruitment/certification.',
-    problem: 'Eliminates paper delays, data entry errors, and filing issues.',
-  },
-  {
-    id: 8,
-    type: 'Product',
-    title: 'Internal Platform & Infrastructure',
-    desc: 'The mission-critical digital backbone driving internal business operations. Architected with the assistance of AI dev tools, it seamlessly connects CRM workflows, automated alert systems, and real-time observability across all AI product lines.',
-    features: [
-      { name: 'Work-OS', desc: 'Custom RBAC platform for daily check-ins and AI-assisted task workflows.' },
-      { name: 'Corporate Site & CRM', desc: 'Lead tracking and intelligent client interaction system.' },
-      { name: 'Notification Service', desc: 'Shared alert backbone across all products via LINE.' },
-      { name: 'Prediction Market', desc: 'Web forecasting platform driving event engagement.' },
-    ],
-    forWho: 'Internal teams and business operators.',
-    problem: 'Consolidates scattered tools and missed updates into a single source of truth.',
-  }
-];
+import { projects } from './projectsData';
 
 const coreCapabilities = [
   {
@@ -149,6 +63,9 @@ export default function App() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [isPersonalityExpanded, setIsPersonalityExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('');
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+
+  const filteredProjects = activeFilter ? projects.filter(p => p.badge === activeFilter) : projects;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -184,7 +101,7 @@ export default function App() {
     <div className="main-layout">
       <header className="top-nav">
         <div className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontWeight: 600, fontSize: '18px', letterSpacing: '0.02em', color: 'var(--text)' }}>Thanaphat O.</span>
+          <span style={{ fontWeight: 600, fontSize: '18px', letterSpacing: '0.02em', color: 'var(--text)' }}>Thanaphat (Jay)</span>
         </div>
         <div className="nav-links">
           <a href="#hero" className={`contact-item ${activeSection === 'hero' ? 'active' : ''}`}>Profile</a>
@@ -200,14 +117,18 @@ export default function App() {
           className="hero-section"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0 }}
           variants={sectionVariants}
         >
-          <motion.h1 variants={itemVariants} className="hero-title">Thanaphat Oungprasertporn<br /><span>AI-Native Product Manager</span></motion.h1>
+          <motion.h1 variants={itemVariants} className="hero-title">Thanaphat (Jay) Oungprasertporn<br /><span>AI-Native Product Manager</span></motion.h1>
           <motion.p variants={itemVariants} className="bio-text">
             Building high-velocity MVPs, conversational AI engines, and capital market sentiment platforms with 5+ years of product leadership.
           </motion.p>
           <motion.div variants={itemVariants} className="contact-stack">
+            <a href="tel:086-777-2951" className="contact-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="contact-icon"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              086-777-2951
+            </a>
             <a href="mailto:thanaphat.oun@gmail.com" className="contact-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="contact-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
               thanaphat.oun@gmail.com
@@ -223,7 +144,7 @@ export default function App() {
           id="value"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0 }}
           variants={sectionVariants}
         >
           <motion.span variants={itemVariants} className="section-label">Core Expertise & Technical Matrix</motion.span>
@@ -246,61 +167,89 @@ export default function App() {
 
         <motion.section 
           id="portfolio" 
-          className="flex flex-col grow"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0 }}
           variants={sectionVariants}
         >
-          <motion.span variants={itemVariants} className="section-label">Products</motion.span>
+          <motion.div variants={itemVariants} className="portfolio-legend">
+            <div 
+              className={`portfolio-legend-item ${activeFilter === null ? 'active' : ''}`}
+              onClick={() => setActiveFilter(null)}
+            >
+              All Products
+            </div>
+            <div 
+              className={`portfolio-legend-item ${activeFilter === 'B2C' ? 'active' : ''}`}
+              onClick={() => setActiveFilter(activeFilter === 'B2C' ? null : 'B2C')}
+            >
+              <span className="badge badge-B2C">B2C</span> Consumer product
+            </div>
+            <div 
+              className={`portfolio-legend-item ${activeFilter === 'B2B' ? 'active' : ''}`}
+              onClick={() => setActiveFilter(activeFilter === 'B2B' ? null : 'B2B')}
+            >
+              <span className="badge badge-B2B">B2B</span> Business / trader tool
+            </div>
+            <div 
+              className={`portfolio-legend-item ${activeFilter === 'INTERNAL' ? 'active' : ''}`}
+              onClick={() => setActiveFilter(activeFilter === 'INTERNAL' ? null : 'INTERNAL')}
+            >
+              <span className="badge badge-INTERNAL">INTERNAL</span> Ops & backoffice
+            </div>
+            <div 
+              className={`portfolio-legend-item ${activeFilter === 'INFRA' ? 'active' : ''}`}
+              onClick={() => setActiveFilter(activeFilter === 'INFRA' ? null : 'INFRA')}
+            >
+              <span className="badge badge-INFRA">INFRA</span> Platform & data layer
+            </div>
+          </motion.div>
+          
           <div className="portfolio-grid">
-            {projects.map((project) => (
-              <motion.div variants={itemVariants} className={`project-card ${expandedId === project.id ? 'active' : ''}`} key={project.id}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--muted)', fontWeight: 600, background: 'rgba(255,255,255,0.05)', padding: '4px 8px', borderRadius: '4px' }}>{project.type}</span>
+            {filteredProjects.map((project) => (
+              <div className="project-card" key={project.id}>
+                <div className="project-header">
+                  <h3>{project.title}</h3>
+                  <span className={`badge badge-${project.badge}`}>{project.badge}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <h3>
-                    {project.title}
-                    {project.link && (
-                      <a href={project.link} target="_blank" rel="noreferrer" style={{ marginLeft: '10px', fontSize: '14px', color: 'var(--accent)', textDecoration: 'none' }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle', marginBottom: '2px' }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                      </a>
-                    )}
-                  </h3>
-                </div>
+                {project.role && (
+                  <div className="project-role">
+                    Role: <span>{project.role}</span>
+                  </div>
+                )}
                 <p>{project.desc}</p>
                 
-                <div className={`project-details ${expandedId === project.id ? 'active' : ''}`}>
-                  {project.metaText && (
-                    <p className="meta-text" style={{ marginBottom: '1rem' }}>{project.metaText}</p>
-                  )}
-                  
-                  {project.features && (
-                    <div className="project-features">
-                      {project.features.map((item, idx) => (
-                        <div key={idx} className="feature-item">
-                          <span className="feature-name">{item.name}</span>
-                          <span className="feature-desc">{item.desc}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  
-                  <div className="meta-group">
-                    <div className="meta-label">Business Impact / Execution</div>
-                    <div className="meta-text">{project.forWho}</div>
-                  </div>
-                  <div className="meta-group">
-                    <div className="meta-label">The Strategy</div>
-                    <div className="meta-text">{project.problem}</div>
-                  </div>
+                <div className="project-section-title">Features</div>
+                <div className="project-features">
+                  {project.features.map((feature, idx) => (
+                    <span key={idx} className="feature-tag">{feature}</span>
+                  ))}
                 </div>
                 
-                <button className="btn-toggle" onClick={() => toggleDetails(project.id)}>
-                  {expandedId === project.id ? 'Close Details' : 'View Details'}
-                </button>
-              </motion.div>
+                {(project.businessImpact || project.strategy) && (
+                  <div className="project-impact-strategy">
+                    {project.businessImpact && (
+                      <div className="impact-block">
+                        <div className="project-section-title">Business Impact</div>
+                        <div className="project-text">{project.businessImpact}</div>
+                      </div>
+                    )}
+                    {project.strategy && (
+                      <div className="impact-block">
+                        <div className="project-section-title">Strategy</div>
+                        <div className="project-text">{project.strategy}</div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                <div className="project-section-title">Tech Stack</div>
+                <div className="project-tech-tags">
+                  {project.techStack.split(' · ').map((tech, idx) => (
+                    <span key={idx} className="tech-tag">{tech}</span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </motion.section>
@@ -309,7 +258,7 @@ export default function App() {
           id="workflow"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0 }}
           variants={sectionVariants}
         >
           <motion.span variants={itemVariants} className="section-label">How I Work: Methodology & Approach</motion.span>
@@ -359,7 +308,7 @@ export default function App() {
           id="personality"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0 }}
           variants={sectionVariants}
         >
           <motion.div 
