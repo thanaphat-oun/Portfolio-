@@ -92,17 +92,17 @@ const coreCapabilities = [
   {
     id: 'ai',
     title: 'AI & Technical Architecture',
-    desc: 'Thai NLP, Sentiment Analysis platforms, LLM Integration, RAG Architecture, and AI Agent Design.',
+    desc: 'Expertise in architecting robust digital products powered by artificial intelligence. Deep experience developing Thai NLP engines, financial sentiment analysis platforms, and Retrieval-Augmented Generation (RAG) pipelines. Proven ability to design autonomous AI agents and seamlessly integrate advanced LLMs (Gemini, OpenAI) into mission-critical enterprise workflows.',
   },
   {
     id: 'rapid',
     title: 'Rapid Prototyping ("Vibe Coding")',
-    desc: 'High-velocity MVP development utilizing v.0, Lovable, and Google AI Studio.',
+    desc: 'Specialized in high-velocity MVP development and iterative prototyping. Proficient in utilizing modern AI-assisted development tools like v.0, Lovable, and Google AI Studio to accelerate time-to-market. Capable of translating abstract product concepts into functional, interactive applications at unprecedented speeds to validate market fit early.',
   },
   {
     id: 'strategy',
     title: 'Product Strategy & Execution',
-    desc: 'Product Roadmaps, Go-To-Market (GTM) execution, Market Entry, Agile/Scrum, and Cross-functional Leadership.',
+    desc: 'Comprehensive end-to-end product leadership. Skilled in crafting strategic product roadmaps, orchestrating Go-To-Market (GTM) launches, and identifying lucrative market entry opportunities. Strong background in Agile/Scrum methodologies and cross-functional leadership, consistently aligning engineering delivery with overarching business objectives.',
   }
 ];
 
@@ -147,7 +147,7 @@ const MBTIBar = ({ left, right, percent }: { left: string, right: string, percen
 
 export default function App() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [expandedCapability, setExpandedCapability] = useState<string | null>(null);
+  const [isPersonalityExpanded, setIsPersonalityExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
@@ -180,15 +180,11 @@ export default function App() {
     setExpandedId(prev => (prev === id ? null : id));
   };
 
-  const toggleCapability = (id: string) => {
-    setExpandedCapability(prev => (prev === id ? null : id));
-  };
-
   return (
     <div className="main-layout">
       <header className="top-nav">
-        <div className="nav-logo">
-          <span className="profile-badge">AI Product Manager</span>
+        <div className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontWeight: 600, fontSize: '18px', letterSpacing: '0.02em', color: 'var(--text)' }}>Thanaphat O.</span>
         </div>
         <div className="nav-links">
           <a href="#hero" className={`contact-item ${activeSection === 'hero' ? 'active' : ''}`}>Profile</a>
@@ -207,7 +203,7 @@ export default function App() {
           viewport={{ once: true, amount: 0.1 }}
           variants={sectionVariants}
         >
-          <motion.h1 variants={itemVariants} className="hero-title">Thanaphat Oungprasertporn<br /><span>AI-Native Product Manager & Fintech Specialist</span></motion.h1>
+          <motion.h1 variants={itemVariants} className="hero-title">Thanaphat Oungprasertporn<br /><span>AI-Native Product Manager</span></motion.h1>
           <motion.p variants={itemVariants} className="bio-text">
             Building high-velocity MVPs, conversational AI engines, and capital market sentiment platforms with 5+ years of product leadership.
           </motion.p>
@@ -224,28 +220,6 @@ export default function App() {
         </motion.section>
 
         <motion.section 
-          id="personality"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={sectionVariants}
-        >
-          <motion.span variants={itemVariants} className="section-label">Personality Profile</motion.span>
-          <motion.div variants={itemVariants} className="personality-card" style={{ background: 'var(--surface)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border)', maxWidth: '600px' }}>
-            <h3 style={{ color: '#94a3b8', margin: '0 0 8px 0', fontSize: '18px' }}>ESTJ-T: The Executive</h3>
-            <p style={{ color: 'var(--muted)', margin: '0 0 24px 0', fontStyle: 'italic', fontSize: '14px', lineHeight: '1.6' }}>"Order, efficiency, and a relentless drive for structural perfection."</p>
-            
-            <div className="mbti-bars" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <MBTIBar left="Extraverted" right="Introverted" percent={58} />
-              <MBTIBar left="Sensing" right="Intuitive" percent={70} />
-              <MBTIBar left="Thinking" right="Feeling" percent={80} />
-              <MBTIBar left="Judging" right="Perceiving" percent={75} />
-              <MBTIBar left="Turbulent" right="Assertive" percent={60} />
-            </div>
-          </motion.div>
-        </motion.section>
-
-        <motion.section 
           id="value"
           initial="hidden"
           whileInView="visible"
@@ -258,17 +232,13 @@ export default function App() {
               <motion.div 
                 key={cap.id}
                 variants={itemVariants} 
-                className={`workflow-item clickable ${expandedCapability === cap.id ? 'active' : ''}`} 
-                style={{flex: '1 1 200px', cursor: 'pointer'}}
-                onClick={() => toggleCapability(cap.id)}
+                className="workflow-item" 
+                style={{flex: '1 1 200px'}}
               >
                 <div className="capability-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <h4 style={{ margin: 0 }}>{cap.title}</h4>
-                  <span className="expand-icon" style={{ color: 'var(--muted)', fontSize: '18px', lineHeight: 1 }}>{expandedCapability === cap.id ? '−' : '+'}</span>
                 </div>
-                {expandedCapability === cap.id && (
-                  <p className="capability-desc" style={{ marginTop: '12px' }}>{cap.desc}</p>
-                )}
+                <p className="capability-desc" style={{ marginTop: '12px', color: 'var(--muted)', fontSize: '14px', lineHeight: '1.6' }}>{cap.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -343,40 +313,76 @@ export default function App() {
           variants={sectionVariants}
         >
           <motion.span variants={itemVariants} className="section-label">How I Work: Methodology & Approach</motion.span>
-          <div className="workflow-row">
-            <motion.div variants={itemVariants} className="workflow-item">
-              <h4>Documentation & Design</h4>
-              <ul>
-                <li>Comprehensive SRS authoring</li>
-                <li>Strategic user journey mapping</li>
-                <li>High-fidelity wireframing (Figma)</li>
-              </ul>
-            </motion.div>
-            <motion.div variants={itemVariants} className="workflow-item">
-              <h4>Commercial Strategy</h4>
-              <ul>
-                <li>Revenue and pricing modeling</li>
-                <li>Strategic partnership proposals</li>
-                <li>Competitive gap analysis</li>
-              </ul>
-            </motion.div>
-            <motion.div variants={itemVariants} className="workflow-item">
-              <h4>Execution & Delivery</h4>
-              <ul>
-                <li>Agile software management</li>
-                <li>Cross-functional team alignment</li>
-                <li>Structured workflows (ClickUp, Jira)</li>
-              </ul>
-            </motion.div>
-            <motion.div variants={itemVariants} className="workflow-item">
-              <h4>Consultative Leadership</h4>
-              <ul>
-                <li>Technology partnership negotiations</li>
-                <li>Business-to-engineering translation</li>
-                <li>Acting as a strategic technical co-founder</li>
-              </ul>
-            </motion.div>
-          </div>
+          <motion.div variants={itemVariants} className="workflow-diagram">
+            {[
+              { 
+                title: 'Documentation & Design', 
+                items: ['Comprehensive SRS authoring', 'Strategic user journey mapping', 'High-fidelity wireframing (Figma)'] 
+              },
+              { 
+                title: 'Commercial Strategy', 
+                items: ['Revenue and pricing modeling', 'Strategic partnership proposals', 'Competitive gap analysis'] 
+              },
+              { 
+                title: 'Execution & Delivery', 
+                items: ['Agile software management', 'Cross-functional team alignment', 'Structured workflows (ClickUp, Jira)'] 
+              },
+              { 
+                title: 'Consultative Leadership', 
+                items: ['Technology partnership negotiations', 'Business-to-engineering translation'] 
+              },
+            ].map((step, index, array) => (
+              <React.Fragment key={index}>
+                <div className="workflow-item workflow-step">
+                  <div style={{ fontSize: '10px', fontWeight: 600, color: 'var(--accent)', marginBottom: '8px', letterSpacing: '0.1em' }}>STEP 0{index + 1}</div>
+                  <h4>{step.title}</h4>
+                  <ul>
+                    {step.items.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                {index < array.length - 1 && (
+                  <div className="workflow-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </motion.div>
+        </motion.section>
+
+        <motion.section 
+          id="personality"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={sectionVariants}
+        >
+          <motion.div 
+            variants={itemVariants} 
+            className="personality-card clickable" 
+            style={{ background: 'var(--surface)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border)', width: '100%', cursor: 'pointer' }}
+            onClick={() => setIsPersonalityExpanded(!isPersonalityExpanded)}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: isPersonalityExpanded ? '16px' : '0' }}>
+              <h3 style={{ color: '#94a3b8', margin: '0', fontSize: '16px', fontWeight: 500 }}>Personality Profile: ESTJ-T</h3>
+              <span style={{ color: 'var(--muted)', fontSize: '18px', lineHeight: 1 }}>{isPersonalityExpanded ? '−' : '+'}</span>
+            </div>
+            
+            {isPersonalityExpanded && (
+              <div className="mbti-bars" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                <MBTIBar left="Extraverted" right="Introverted" percent={58} />
+                <MBTIBar left="Sensing" right="Intuitive" percent={70} />
+                <MBTIBar left="Thinking" right="Feeling" percent={80} />
+                <MBTIBar left="Judging" right="Perceiving" percent={75} />
+                <MBTIBar left="Turbulent" right="Assertive" percent={60} />
+              </div>
+            )}
+          </motion.div>
         </motion.section>
 
         <footer className="tech-stack-footer">
